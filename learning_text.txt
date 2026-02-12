@@ -1,0 +1,43 @@
+Now on the stage, when i just created index.js file and models in the /models floder -
+i need to create relationships between models:
+
+We can create relationships with Sequelize, as well as with the use of associations.
+
+To create relationships:
+
+One-to-one – We need to specify which model belongs to another by using the model2.belongsTo(model1) function in one and model1.hasOne(model2) in another.
+
+One-to-many – We need to specify which model belongs to another by using the model2.belongsTo(model1) function in one and model1.hasMany(model2) in another.
+
+Many-to-many – We need to use model1.belongsToMany (model2, {through: {model3}}), in SQL analogy, model3 will store keys of model1 and model2 in columns.
+
+
+*** ___From Sequelize documentation - Associations___***
+
+Sequelize supports the standard associations: One-To-One, One-To-Many and Many-To-Many.
+
+To do this, Sequelize provides four types of associations that should be combined to create them:
+
+The HasOne association
+The BelongsTo association
+The HasMany association
+The BelongsToMany association
+
+Syntax: 
+
+const A = sequelize.define('A' /* ... */);
+const B = sequelize.define('B' /* ... */);
+
+A.hasOne(B); // A HasOne B
+A.belongsTo(B); // A BelongsTo B
+A.hasMany(B); // A HasMany B
+A.belongsToMany(B, { through: 'C' }); // A BelongsToMany B through the junction table C
+
+
+----After writing a associations for my models - We need to invoke these associating functions after the initialisation of our models.
+For tat i add code in index.js in the ‘models’ folder before returning the db object:
+Object.keys(db).forEach(modelName => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
