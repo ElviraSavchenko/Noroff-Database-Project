@@ -30,4 +30,18 @@ router.delete('/', jsonParser, async function(req, res, next) {
     await hotelService.deleteHotel(id);
     res.end()
 })
+
+//to get hotels details
+router.get('/:hotelId', async function(req, res, next) {
+  const hotel = await hotelService.getHotelDetails(req.params.hotelId);
+  res.render('hotelDetails', { hotel: hotel });
+});
+
+//Handler for ratings of the particular hotel:
+router.post('/:hotelId/rate', jsonParser, async function(req, res, next) {
+  let value = req.body.Value;
+  await hotelService.makeARate(1, req.params.hotelId, value);
+  res.end()
+});
+
 module.exports = router;
